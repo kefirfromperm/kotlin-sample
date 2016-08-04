@@ -9,6 +9,7 @@ import java.util.*
 class Generator {
     val direct : SortedSet<String>
     val reversed: SortedMap<String, String>
+    val palindromes: MutableSet<List<String>> = HashSet()
 
     constructor(words: Collection<String>){
         direct = TreeSet(words)
@@ -16,5 +17,26 @@ class Generator {
     }
 
     fun run(){
+        val firstCandidates = direct.map { Candidate(it) }
+        palindromes.addAll(firstCandidates.filter { it.palindrome }.map { it.result })
+        var oldGen:Collection<Candidate> = firstCandidates.filterNot { it.palindrome }
+
+        for(i in 1..20) {
+            val newGen = HashSet<Candidate>()
+
+            for (c in oldGen) {
+                if(c.leftSize<c.rightSize){
+
+                } else if(c.leftSize>c.rightSize){
+
+                }
+            }
+
+            palindromes.addAll(newGen.filter { it.palindrome }.map { it.result })
+            oldGen = newGen.filterNot { it.palindrome }
+        }
     }
+
+
+    val count = palindromes.size
 }

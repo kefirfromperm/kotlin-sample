@@ -23,12 +23,12 @@ class Candidate {
         }
     }
 
-    private val leftSize: Int
+    val leftSize: Int
         get() {
             return left.fold(0, { r, s -> s.length })
         }
 
-    private val rightSize: Int
+    val rightSize: Int
         get() {
             return right.fold(0, { r, s -> s.length })
         }
@@ -52,4 +52,9 @@ class Candidate {
     private fun isItPalindrome(word: String): Boolean {
         return word.equals(word.reversed())
     }
+
+    val result: List<String>
+        get() {
+            return left + right
+        }
 }

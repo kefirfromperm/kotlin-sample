@@ -1,6 +1,7 @@
 package org.kefirsf.palindrome
 
-import org.junit.*;
+import org.junit.*
+import org.junit.Assert.*
 
 /**
  * Tests for palindrome generator.
@@ -11,7 +12,7 @@ class GeneratorTest {
         val words : Collection<String> = listOf("манит", "аргентина", "негра")
         val gen = Generator(words)
         gen.run()
-        Assert.assertEquals(1, gen.count)
-        Assert.assertEquals(listOf("аргентина", "манит", "негра"), gen.palindromes[0])
+        assertEquals(1, gen.count)
+        assertEquals(listOf("аргентина", "манит", "негра"), gen.palindromes.first())
     }
 }
