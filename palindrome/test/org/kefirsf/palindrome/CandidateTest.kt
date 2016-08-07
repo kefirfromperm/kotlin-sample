@@ -21,4 +21,11 @@ class CandidateTest {
         assertEquals(word, c.part)
         assertFalse(c.palindrome)
     }
+
+    @Test fun size(){
+        val c = Candidate(Candidate(Candidate("12"), "1"), "32")
+        assertTrue(c.palindrome)
+        assertEquals(2, c.leftSize)
+        assertEquals(3, c.rightSize)
+    }
 }

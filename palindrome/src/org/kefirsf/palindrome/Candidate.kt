@@ -25,12 +25,12 @@ class Candidate {
 
     val leftSize: Int
         get() {
-            return left.fold(0, { r, s -> s.length })
+            return left.fold(0, { a, s -> a + s.length })
         }
 
     val rightSize: Int
         get() {
-            return right.fold(0, { r, s -> s.length })
+            return right.fold(0, { a, s -> a + s.length })
         }
 
     val part: String
@@ -57,4 +57,8 @@ class Candidate {
         get() {
             return left + right
         }
+
+    override fun toString(): String {
+        return "Candidate(left=$left, right=$right, palindrome=$palindrome, part=$part)"
+    }
 }
