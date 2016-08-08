@@ -1,5 +1,7 @@
 package org.kefirsf.palindrome
 
+import java.io.OutputStream
+import java.io.PrintStream
 import java.util.*
 
 /**
@@ -10,18 +12,34 @@ class Generator {
     val direct: SortedSet<String>
     val reversed: SortedMap<String, String>
     val palindromes: MutableSet<List<String>> = HashSet()
+    private var output: PrintStream = PrintStream(NullOutputStream())
+    fun setOutput(stream: OutputStream) {
+        if (stream is PrintStream) {
+            output = stream
+        } else {
+            output = PrintStream(stream)
+        }
+    }
 
     constructor(words: Collection<String>) {
         direct = TreeSet(words)
         reversed = TreeMap(words.associateBy { it.reversed() })
     }
 
-    fun run() {
+    fun run(max: Int) {
         val firstCandidates = direct.map { Candidate(it) }
         palindromes.addAll(firstCandidates.filter { it.palindrome }.map { it.result })
         var oldGen: Collection<Candidate> = firstCandidates.filterNot { it.palindrome }
 
-        for (i in 1..20) {
+        if(palindromes.isNotEmpty()) {
+            output.println("Palindromes: $palindromes")
+        }
+
+        output.println("Candidates: $oldGen")
+
+        for (i in 1..max) {
+            output.println("Generation $i")
+
             val newGen = HashSet<Candidate>()
 
             for (c in oldGen) {
@@ -31,11 +49,17 @@ class Generator {
                 newGen.addAll(children.filterNot { it.palindrome })
             }
 
+            if(palindromes.isNotEmpty()) {
+                output.println("Palindromes: $palindromes")
+            }
+
             if (newGen.isEmpty()) {
                 break
             }
 
             oldGen = newGen
+
+            output.println("Candidates: $oldGen")
         }
     }
 
@@ -92,6 +116,12 @@ class Generator {
         get() {
             return palindromes.size
         }
+}
+
+class NullOutputStream : OutputStream() {
+    override fun write(b: Int) {
+        // Nothing
+    }
 }
 
 class ImpossibleWayException : Exception(

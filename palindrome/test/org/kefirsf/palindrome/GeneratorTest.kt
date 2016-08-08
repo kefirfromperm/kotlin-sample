@@ -12,7 +12,8 @@ class GeneratorTest {
     fun simple(){
         val words : Collection<String> = listOf("манит", "аргентина", "негра")
         val gen = Generator(words)
-        gen.run()
+        gen.setOutput(System.out)
+        gen.run(20)
         assertEquals(1, gen.count)
         assertEquals(listOf("аргентина", "манит", "негра"), gen.palindromes.first())
     }
@@ -20,7 +21,8 @@ class GeneratorTest {
     @Test
     fun bigLeft(){
         val gen = Generator(listOf("21", "43", "65", "1234567"))
-        gen.run()
+        gen.setOutput(System.out)
+        gen.run(20)
         assertEquals(1, gen.count)
         assertEquals(listOf("1234567", "65", "43", "21"), gen.palindromes.first())
     }
@@ -28,7 +30,8 @@ class GeneratorTest {
     @Test
     fun bigRight(){
         val gen = Generator(listOf("12", "34", "56", "7654321"))
-        gen.run()
+        gen.setOutput(System.out)
+        gen.run(20)
         assertEquals(1, gen.count)
         assertEquals(listOf("12", "34", "56", "7654321"), gen.palindromes.first())
     }
@@ -36,7 +39,8 @@ class GeneratorTest {
     @Test
     fun mirror(){
         val gen = Generator(listOf("123", "321"))
-        gen.run()
+        gen.setOutput(System.out)
+        gen.run(20)
         assertEquals(2, gen.count)
         assertTrue(gen.palindromes.contains(listOf("123", "321")))
         assertTrue(gen.palindromes.contains(listOf("321", "123")))
@@ -45,7 +49,8 @@ class GeneratorTest {
     @Test
     fun chain(){
         val gen = Generator(listOf("123", "0987", "654321", "456789", "82", "010987"))
-        gen.run()
+        gen.setOutput(System.out)
+        gen.run(20)
         assertEquals(2, gen.count)
         assertTrue(gen.palindromes.contains(listOf("123", "456789", "0987", "654321")))
         assertTrue(gen.palindromes.contains(listOf("123", "456789", "010987", "654321")))
