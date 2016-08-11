@@ -9,7 +9,7 @@ import java.nio.charset.Charset
 fun main(args:Array<String>){
     val gen = Generator(File("e:/tmp/words.txt").readLines(Charset.forName("cp1251")))
     //gen.setOutput(System.out)
-    gen.run(5)
+    gen.run(2)
     gen.palindromes.forEach {
         System.out.println(it)
     }
