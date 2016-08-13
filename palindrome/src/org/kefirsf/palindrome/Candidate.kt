@@ -1,5 +1,7 @@
 package org.kefirsf.palindrome
 
+import java.util.*
+
 /**
  * Palindrome candidate
  * @author kefir
@@ -53,6 +55,9 @@ class Candidate {
         return word.equals(word.reversed())
     }
 
+    /**
+     * Return result palindrome
+     */
     val result: List<String>
         get() {
             return left + right
@@ -60,5 +65,20 @@ class Candidate {
 
     override fun toString(): String {
         return "Candidate(left=$left, right=$right, palindrome=$palindrome, part=$part)"
+    }
+
+    fun hasDuplication():Boolean{
+        val set = HashSet<String>()
+        for(word in left){
+            if(set.contains(word)){
+                return true
+            }
+        }
+        for(word in right){
+            if(set.contains(word)){
+                return true
+            }
+        }
+        return false
     }
 }

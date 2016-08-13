@@ -46,7 +46,7 @@ class Generator {
                 val children = generateChildren(c)
 
                 palindromes.addAll(children.filter { it.palindrome }.map { it.result })
-                newGen.addAll(children.filterNot { it.palindrome })
+                newGen.addAll(children.filterNot { it.palindrome || it.hasDuplication()})
             }
 
             if(palindromes.isNotEmpty()) {
