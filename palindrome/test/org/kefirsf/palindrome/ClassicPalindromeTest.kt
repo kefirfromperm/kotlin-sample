@@ -11,11 +11,11 @@ import org.junit.Assert.*
  * @author kefir
  */
 @RunWith(Parameterized::class)
-class ClassicPalindromeTest(val words:Collection<String>, val palindrome:List<String>) {
+class ClassicPalindromeTest(val words: Collection<String>, val palindrome: List<String>) {
     companion object {
         @JvmStatic
         @Parameterized.Parameters
-        fun data() : Collection<Array<Collection<String>>> {
+        fun data(): Collection<Array<Collection<String>>> {
             return listOf(
                     arrayOf(setOf("redivider"), listOf("redivider")),
                     arrayOf(setOf("noon"), listOf("noon")),
@@ -42,10 +42,10 @@ class ClassicPalindromeTest(val words:Collection<String>, val palindrome:List<St
     }
 
     @Test
-    fun testPalindrome(){
+    fun testPalindrome() {
         val gen = Generator(words)
         gen.run(20)
-        assertEquals(1, gen.count)
-        assertEquals(palindrome, gen.palindromes.first())
+        assertTrue(gen.count>0)
+        assertTrue(gen.palindromes.contains(palindrome))
     }
 }
