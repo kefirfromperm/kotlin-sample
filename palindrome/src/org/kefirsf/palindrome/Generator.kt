@@ -69,7 +69,7 @@ class Generator {
         } else if (c.leftSize < c.rightSize) {
             return generateLeftChildren(c)
         } else {
-            throw ImpossibleWayException();
+            throw ImpossibleWayException()
         }
     }
 
@@ -87,7 +87,7 @@ class Generator {
             if (word.startsWith(rp)) {
                 newCandidates.add(Candidate(c, word))
             } else {
-                break;
+                break
             }
         }
         return newCandidates

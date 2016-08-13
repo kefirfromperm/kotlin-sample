@@ -67,15 +67,15 @@ class Candidate {
         return "Candidate(left=$left, right=$right, palindrome=$palindrome, part=$part)"
     }
 
-    fun hasDuplication():Boolean{
+    fun hasDuplication(): Boolean {
         val set = HashSet<String>()
-        for(word in left){
-            if(set.contains(word)){
+        for (word in left) {
+            if (set.contains(word)) {
                 return true
             }
         }
-        for(word in right){
-            if(set.contains(word)){
+        for (word in right) {
+            if (set.contains(word)) {
                 return true
             }
         }
