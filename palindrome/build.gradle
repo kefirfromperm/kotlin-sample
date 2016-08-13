@@ -16,10 +16,17 @@ apply plugin: "application"
 mainClassName = 'org.kefirsf.palindrome.MainKt'
 
 sourceSets {
-    main.kotlin.srcDirs = ['src']
-    main.java.srcDirs = ['src']
-    test.kotlin.srcDirs = ['test']
-    test.java.srcDirs = ['test']
+    main {
+        kotlin.srcDirs = ['src']
+        java.srcDirs = ['src']
+        resources.srcDirs = ['src']
+    }
+
+    test{
+        kotlin.srcDirs = ['test']
+        java.srcDirs = ['test']
+        resources.srcDirs = ['test']
+    }
 }
 
 repositories {
@@ -28,6 +35,8 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.slf4j:slf4j-api:1.7.21"
+    compile "ch.qos.logback:logback-classic:1.1.7"
     testCompile 'junit:junit:4.12'
 }
 

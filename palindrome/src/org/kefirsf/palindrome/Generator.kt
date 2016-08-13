@@ -1,5 +1,7 @@
 package org.kefirsf.palindrome
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.OutputStream
 import java.io.PrintStream
 import java.util.*
@@ -9,17 +11,23 @@ import java.util.*
  * @author kefir
  */
 class Generator {
+    val log: Logger = LoggerFactory.getLogger(Generator::class.java)
     val direct: SortedSet<String>
     val reversed: SortedMap<String, String>
-    val palindromes: MutableSet<List<String>> = HashSet()
-    private var output: PrintStream = PrintStream(NullOutputStream())
-    fun setOutput(stream: OutputStream) {
-        if (stream is PrintStream) {
-            output = stream
-        } else {
-            output = PrintStream(stream)
-        }
-    }
+    val palindromes: SortedSet<List<String>> = TreeSet<List<String>>(
+            { o1, o2 ->
+                var res = 0
+                var i: Int = 0
+                while (i < Math.min(o1.size, o2.size) && res == 0) {
+                    res = o1[i].compareTo(o2[i])
+                    i++
+                }
+                if(res==0) {
+                    res = o1.size - o2.size
+                }
+                res
+            }
+    )
 
     constructor(words: Collection<String>) {
         direct = TreeSet(words)
@@ -31,14 +39,16 @@ class Generator {
         palindromes.addAll(firstCandidates.filter { it.palindrome }.map { it.result })
         var oldGen: Collection<Candidate> = firstCandidates.filterNot { it.palindrome }
 
-        if(palindromes.isNotEmpty()) {
-            output.println("Palindromes: $palindromes")
+        if (palindromes.isNotEmpty() && log.isDebugEnabled) {
+            log.debug("One-word palindromes:\n${palindromes.joinToString("\n")}")
         }
 
-        output.println("Candidates: $oldGen")
+        if (log.isDebugEnabled) {
+            log.debug("First generation candidates:\n${oldGen.joinToString("\n")}")
+        }
 
-        for (i in 1..max) {
-            output.println("Generation $i")
+        for (i in 2..max) {
+            log.info("Generation $i")
 
             val newGen = HashSet<Candidate>()
 
@@ -46,11 +56,12 @@ class Generator {
                 val children = generateChildren(c)
 
                 palindromes.addAll(children.filter { it.palindrome }.map { it.result })
-                newGen.addAll(children.filterNot { it.palindrome || it.hasDuplication()})
+                newGen.addAll(children.filterNot { it.palindrome || it.hasDuplication() })
             }
 
-            if(palindromes.isNotEmpty()) {
-                output.println("Palindromes: $palindromes")
+            log.info("Palindromes count - ${palindromes.size}")
+            if (palindromes.isNotEmpty() && log.isDebugEnabled) {
+                log.debug("Palindromes:\n${palindromes.joinToString("\n")}")
             }
 
             if (newGen.isEmpty()) {
@@ -59,7 +70,10 @@ class Generator {
 
             oldGen = newGen
 
-            output.println("Candidates: $oldGen")
+            log.info("Candidates count - ${oldGen.size}")
+            if (log.isDebugEnabled) {
+                log.debug("Candidates:\n${oldGen.joinToString("\n")}")
+            }
         }
     }
 

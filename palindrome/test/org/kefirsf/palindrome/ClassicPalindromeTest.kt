@@ -44,7 +44,6 @@ class ClassicPalindromeTest(val words:Collection<String>, val palindrome:List<St
     @Test
     fun testPalindrome(){
         val gen = Generator(words)
-        gen.setOutput(System.out)
         gen.run(20)
         assertEquals(1, gen.count)
         assertEquals(palindrome, gen.palindromes.first())
